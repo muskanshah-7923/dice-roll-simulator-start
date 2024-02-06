@@ -12,6 +12,7 @@ function goBtnClicked() {
 
   // Process Selection
   if (selection === "roll-once") {
+  outputEl.innerHTML = "<h3>ROLL ONCE</h3>";
     rollOnce();
   } else if (selection === "roll-five") {
     roll5Times();
@@ -23,18 +24,17 @@ function goBtnClicked() {
 }
 
 function rollOnce() {
-  // Display Menu Title
-  outputEl.innerHTML = "<h3>ROLL ONCE</h3>";
-
   // Random Dice Roll & Total
-  let die1 = Math.floor(Math.random() * 6) + 1;
-  let die2 = Math.floor(Math.random() * 6) + 1;
+  let die1 = randomInt(1, 7);
+  let die2 = randomInt(1, 7);
   let total = die1 + die2;
 
   // Add Results to output element
   let pEl = document.createElement("p");
   pEl.innerHTML = `${die1},${die2} (sum: ${total})`;
   outputEl.appendChild(pEl);
+
+  return total;
 }
 
 function roll5Times() {
@@ -42,15 +42,7 @@ function roll5Times() {
   outputEl.innerHTML = "<h3>ROLL 5 TIMES</h3>";
 
   for (let n = 1; n <= 5; n++) {
-    // Random Dice Roll & Total
-    let die1 = Math.floor(Math.random() * 6) + 1;
-    let die2 = Math.floor(Math.random() * 6) + 1;
-    let total = die1 + die2;
-
-    // Add Results to output element
-    let pEl = document.createElement("p");
-    pEl.innerHTML = `${die1},${die2} (sum: ${total})`;
-    outputEl.appendChild(pEl);
+   rollOnce();
   }
 }
 
@@ -62,15 +54,7 @@ function rollNTimes() {
   outputEl.innerHTML = "<h3>ROLL 'N' TIMES</h3>";
 
   for (let n = 1; n <= numRolls; n++) {
-    // Random Dice Roll & Total
-    let die1 = Math.floor(Math.random() * 6) + 1;
-    let die2 = Math.floor(Math.random() * 6) + 1;
-    let total = die1 + die2;
-
-    // Add Results to output element
-    let pEl = document.createElement("p");
-    pEl.innerHTML = `${die1},${die2} (sum: ${total})`;
-    outputEl.appendChild(pEl);
+    rollOnce();
   }
 }
 
@@ -82,17 +66,9 @@ function snakeEyes() {
   let loop = true;
   while (loop) {
     count++;
-    // Random Dice Roll & Total
-    let die1 = Math.floor(Math.random() * 6) + 1;
-    let die2 = Math.floor(Math.random() * 6) + 1;
-    let total = die1 + die2;
-
-    // Add Results to output element
-    let pEl = document.createElement("p");
-    pEl.innerHTML = `${die1},${die2} (sum: ${total})`;
-    outputEl.appendChild(pEl);
-
-    if (total === 2) {
+    let rollTotal = rollOnce();
+    
+    if (rollTotal === 2) {
       outputEl.innerHTML += `<p>SNAKE EYES! It took ${count} rolls to get snake eyes.`;
       loop = false;
     }
